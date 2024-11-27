@@ -28,6 +28,18 @@ public class UserController {
         .body(ApiResponse.success(null, "회원가입에 성공했습니다."));
   }
 
+  @PostMapping("/signup/initiate")
+  public ResponseEntity<ApiResponse> initiateSignup(@Valid @RequestBody UserSignupRequest request) {
+    userService.initiateSignup(request);
+    return ResponseEntity.ok(ApiResponse.success("인증 메일이 발송되었습니다"));
+  }
+
+  @GetMapping("/signup/verify")
+  public ResponseEntity<ApiResponse> verifyEmail(@RequestParam String token) {
+    userService.completeSignup(token);
+    return ResponseEntity.ok(ApiResponse.success("회원가입이 완료되었습니다"));
+  }
+
   @GetMapping("/me")
   public ResponseEntity<ApiResponse<TempUserInfoResponse>> getCurrentUser(
       @AuthenticationPrincipal UserDetails userDetails) {

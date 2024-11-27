@@ -2,8 +2,15 @@ package com.behindy.behindy_api.service;
 
 import com.behindy.behindy_api.dto.request.user.UserSignupRequest;
 import com.behindy.behindy_api.dto.response.user.TempUserInfoResponse;
+import com.behindy.behindy_api.entity.TempUser;
 import com.behindy.behindy_api.entity.User;
+import com.behindy.behindy_api.exception.DuplicateEmailException;
+import com.behindy.behindy_api.exception.InvalidTokenException;
+import com.behindy.behindy_api.exception.TokenExpiredException;
+import com.behindy.behindy_api.repository.TempUserRepository;
 import com.behindy.behindy_api.repository.UserRepository;
+import com.behindy.behindy_api.service.email.EmailService;
+import com.behindy.behindy_api.utils.TokenGenerator;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserService {
   private final UserRepository userRepository;
+  private final TempUserRepository tempUserRepository;
   private final PasswordEncoder passwordEncoder;
+  private final EmailService emailService;  // 추가
 
   @Transactional
   public User signup(UserSignupRequest request) {
@@ -35,6 +44,36 @@ public class UserService {
         .build();
 
     return userRepository.save(user);
+  }
+
+  @Transactional
+  public void initiateSignup(UserSignupRequest request) {
+    if (userRepository.existsByEmail(request.getEmail())) {
+      throw new DuplicateEmailException();
+    }
+
+    String verificationToken = TokenGenerator.generateToken();
+    // 비밀번호 암호화
+    request.setPassword(passwordEncoder.encode(request.getPassword()));
+    TempUser tempUser = TempUser.from(request, verificationToken);
+    tempUserRepository.save(tempUser);
+
+    emailService.sendVerificationEmail(request.getEmail(), verificationToken);
+  }
+
+  @Transactional
+  public void completeSignup(String token) {
+    TempUser tempUser = tempUserRepository.findByVerificationToken(token)
+        .orElseThrow(() -> new InvalidTokenException());
+
+    if (tempUser.isTokenExpired()) {
+      throw new TokenExpiredException();
+    }
+
+    User user = User.from(tempUser);
+    userRepository.save(user);
+
+    tempUserRepository.delete(tempUser);
   }
 
   @Transactional(readOnly = true)

@@ -8,7 +8,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "`user`")
 @EntityListeners(AuditingEntityListener.class)
@@ -34,11 +33,33 @@ public class User {
   @LastModifiedDate
   private LocalDateTime updatedAt;
 
+  // 논리삭제를 위한 필드 추가
+  @Column(name = "deleted_at")
+  private LocalDateTime deletedAt;
+
   @Builder
   public User(String name, String email, String password) {
     this.id = UlidGenerator.generateUserId();
     this.name = name;
     this.email = email;
     this.password = password;
+  }
+
+  public static User from(TempUser tempUser) {
+    return User.builder()
+        .name(tempUser.getName())
+        .email(tempUser.getEmail())
+        .password(tempUser.getPassword())
+        .build();
+  }
+
+  // 논리삭제 메서드
+  public void delete() {
+    this.deletedAt = LocalDateTime.now();
+  }
+
+  // 삭제 여부 확인 메서드
+  public boolean isDeleted() {
+    return this.deletedAt != null;
   }
 }
