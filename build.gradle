@@ -6,8 +6,7 @@ plugins {
 
 // 빌드 디렉토리를 프로젝트 외부에 생성하고 build 레포지토릐를 분리해서 환경변수 등 민감한 정보를 private 레포지토리에서 관리할 것
 // 프로젝트의 루트 디렉토리보다 한단계 상위의 디렉토리에 behindy-api 와 behindy-api-build가 존재하는 경우
-layout.buildDirectory.set(project.file('../behindy-api-build/'))
-
+layout.buildDirectory.set(project.file('../behindy-api-build/build'))
 
 group = 'com.behindy'
 version = '0.0.1-SNAPSHOT'

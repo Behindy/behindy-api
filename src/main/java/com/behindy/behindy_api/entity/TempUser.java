@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "temp_user")
+@Table(name = "`temp_user`")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -55,7 +55,7 @@ public class TempUser {
     return TempUser.builder()
         .name(request.getName())
         .email(request.getEmail())
-        .password(request.getPassword())  // 암호화는 서비스 계층에서 처리
+        .password(request.getPassword())
         .verificationToken(verificationToken)
         .build();
   }
