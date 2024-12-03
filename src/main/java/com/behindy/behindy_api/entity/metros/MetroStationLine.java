@@ -4,9 +4,6 @@ import com.behindy.behindy_api.entity.comps.MetroStationLineId;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "`metro_station_line`")
 @Getter

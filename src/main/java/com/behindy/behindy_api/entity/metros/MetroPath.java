@@ -3,9 +3,6 @@ package com.behindy.behindy_api.entity.metros;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "`metro_path`")
 @Getter
