@@ -13,10 +13,6 @@ public class MetroPath {
   private String id;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "m_d_id", nullable = false)
-  private MetroDistinct distinct;
-
-  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "m_l_id", nullable = false)
   private MetroLine line;
 
@@ -27,10 +23,9 @@ public class MetroPath {
   private String connectStation2;
 
   @Builder
-  public MetroPath(String id, MetroDistinct distinct, MetroLine line,
+  public MetroPath(String id, MetroLine line,
                    String connectStation1, String connectStation2) {
     this.id = id;
-    this.distinct = distinct;
     this.line = line;
     this.connectStation1 = connectStation1;
     this.connectStation2 = connectStation2;
