@@ -1,4 +1,4 @@
-package com.behindy.behindy_api.entity;
+package com.behindy.behindy_api.entity.users;
 
 import com.behindy.behindy_api.dto.request.user.UserSignupRequest;
 import com.behindy.behindy_api.utils.UlidGenerator;

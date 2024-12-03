@@ -1,6 +1,6 @@
 package com.behindy.behindy_api.repository;
 
-import com.behindy.behindy_api.entity.TempUser;
+import com.behindy.behindy_api.entity.users.TempUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

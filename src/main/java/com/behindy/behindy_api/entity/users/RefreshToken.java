@@ -1,4 +1,4 @@
-package com.behindy.behindy_api.entity;
+package com.behindy.behindy_api.entity.users;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

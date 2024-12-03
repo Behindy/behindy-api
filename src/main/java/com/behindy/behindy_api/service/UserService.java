@@ -2,8 +2,8 @@ package com.behindy.behindy_api.service;
 
 import com.behindy.behindy_api.dto.request.user.UserSignupRequest;
 import com.behindy.behindy_api.dto.response.user.TempUserInfoResponse;
-import com.behindy.behindy_api.entity.TempUser;
-import com.behindy.behindy_api.entity.User;
+import com.behindy.behindy_api.entity.users.TempUser;
+import com.behindy.behindy_api.entity.users.User;
 import com.behindy.behindy_api.exception.DuplicateEmailException;
 import com.behindy.behindy_api.exception.InvalidTokenException;
 import com.behindy.behindy_api.exception.TokenExpiredException;

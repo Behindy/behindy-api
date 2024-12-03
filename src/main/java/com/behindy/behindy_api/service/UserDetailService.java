@@ -1,6 +1,6 @@
 package com.behindy.behindy_api.service;
 
-import com.behindy.behindy_api.entity.User;
+import com.behindy.behindy_api.entity.users.User;
 import com.behindy.behindy_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

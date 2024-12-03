@@ -1,6 +1,6 @@
 package com.behindy.behindy_api.dto.response.user;
 
-import com.behindy.behindy_api.entity.User;
+import com.behindy.behindy_api.entity.users.User;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

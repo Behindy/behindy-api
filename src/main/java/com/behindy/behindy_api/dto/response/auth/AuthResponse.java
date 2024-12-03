@@ -1,7 +1,7 @@
 package com.behindy.behindy_api.dto.response.auth;
 
 import com.behindy.behindy_api.dto.common.TokenInfo;
-import com.behindy.behindy_api.entity.User;
+import com.behindy.behindy_api.entity.users.User;
 import lombok.Builder;
 import lombok.Getter;
 

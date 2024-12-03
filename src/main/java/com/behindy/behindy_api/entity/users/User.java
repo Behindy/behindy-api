@@ -1,5 +1,7 @@
-package com.behindy.behindy_api.entity;
+package com.behindy.behindy_api.entity.users;
 
+import com.behindy.behindy_api.entity.games.Character;
+import com.behindy.behindy_api.entity.fams.Famous;
 import com.behindy.behindy_api.utils.UlidGenerator;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +11,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "`user`")
 @EntityListeners(AuditingEntityListener.class)
@@ -16,50 +21,55 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User {
   @Id
-  @Column(length = 32)
+  @Column(name = "user_id", length = 32)
   private String id;
-
-  @Column(nullable = false)
-  private String name;
 
   @Column(nullable = false)
   private String email;
 
   @Column(nullable = false)
+  private String name;
+
+  @Column(nullable = false)
   private String password;
 
   @CreatedDate
+  @Column(nullable = false, updatable = false)
   private LocalDateTime createdAt;
 
   @LastModifiedDate
+  @Column(nullable = true)
   private LocalDateTime updatedAt;
 
-  // 논리삭제를 위한 필드 추가
-  @Column(name = "deleted_at")
+  @Column(nullable = true)
   private LocalDateTime deletedAt;
 
+  @OneToMany(mappedBy = "user")
+  private List<Famous> famousLikes = new ArrayList<>();
+
+  @OneToMany(mappedBy = "user")
+  private List<Character> characters = new ArrayList<>();
+
   @Builder
-  public User(String name, String email, String password) {
+  public User(String email, String name, String password) {
     this.id = UlidGenerator.generateUserId();
-    this.name = name;
     this.email = email;
+    this.name = name;
     this.password = password;
   }
 
   public static User from(TempUser tempUser) {
     return User.builder()
-        .name(tempUser.getName())
         .email(tempUser.getEmail())
+        .name(tempUser.getName())
         .password(tempUser.getPassword())
         .build();
   }
 
-  // 논리삭제 메서드
   public void delete() {
     this.deletedAt = LocalDateTime.now();
   }
 
-  // 삭제 여부 확인 메서드
   public boolean isDeleted() {
     return this.deletedAt != null;
   }

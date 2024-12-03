@@ -1,7 +1,7 @@
 package com.behindy.behindy_api.repository;
 
 
-import com.behindy.behindy_api.entity.User;
+import com.behindy.behindy_api.entity.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
